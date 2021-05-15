@@ -7,7 +7,7 @@
         // Update 'VARIANT' to pick an Ubuntu version: focal, bionic
         "args": { "VARIANT": "focal" }
     },
-    "workspaceFolder": "/workspaces/repository-template",
+    "workspaceFolder": "/workspaces/repo-this",
 
     // Set *default* container specific settings.json values on container create.
     "settings": { 
@@ -30,7 +30,8 @@
         "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind",
         "source=${localEnv:HOME}/.aws,target=/root/.aws,type=bind,consistency=cached",
         "source=${localEnv:HOME}/.kube,target=/root/.kube,type=bind,consistency=cached",
-        // "source=${localWorkspaceFolder}/../../../other-repo,target=/workspaces/other-repo,type=bind",
+        "source=${localWorkspaceFolder}/../../,target=/workspaces/repo-this,type=bind",
+        // "source=${localWorkspaceFolder}/../../../repo-other,target=/workspaces/repo-other,type=bind",
     ],
 
     // Add the IDs of extensions you want installed when the container is created.
