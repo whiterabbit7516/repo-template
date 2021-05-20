@@ -86,7 +86,7 @@ RUN pwsh -noni -nol -nop -c Install-Module PSFzf -Scope AllUsers -Force
 RUN sudo apt-get install -y docker.io \
     && docker --version
 
-RUN curl -L "https://github.com/docker/compose/releases/download/1.28.2/docker-compose-Linux-x86_64" -o /usr/local/bin/docker-compose \
+RUN pwsh -nop -nol -c iwr "https://github.com/docker/compose/releases/download/1.28.2/docker-compose-Linux-x86_64" -outfile /usr/local/bin/docker-compose \
     && chmod +x /usr/local/bin/docker-compose \
     && docker-compose version
 
@@ -119,7 +119,7 @@ RUN pip3 install virtualenv black pandas numpy
 # aws
 ##########################################
 
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+RUN pwsh -nop -nol -c iwr "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -outfile "awscliv2.zip" \
     && unzip awscliv2.zip \
     && sudo ./aws/install \
     && rm -rf aws* \
@@ -131,7 +131,7 @@ RUN sudo pwsh -c Install-Module -Scope AllUsers -Name AWSPowerShell.NetCore -For
 # terraform
 ##########################################
 
-RUN curl "https://releases.hashicorp.com/terraform/0.13.6/terraform_0.13.6_linux_amd64.zip" -o "terraform.zip" \
+RUN pwsh -nop -nol -c iwr "https://releases.hashicorp.com/terraform/0.15.4/terraform_0.15.4_linux_amd64.zip" -outfile "terraform.zip" \
     && unzip terraform.zip \
     && mv terraform /usr/local/bin/terraform \
     && rm terraform.zip \
@@ -142,7 +142,7 @@ RUN curl "https://releases.hashicorp.com/terraform/0.13.6/terraform_0.13.6_linux
 ##########################################
 
 # kubectl
-RUN curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl" \
+RUN pwsh -nop -nol -c iwr "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl" -outfile kubectl \
     && chmod +x kubectl \
     && sudo mv ./kubectl /usr/local/bin/kubectl \
     && kubectl version --client
@@ -184,7 +184,7 @@ RUN pwsh -nop -nol -c iwr https://get.helm.sh/helm-v3.5.4-linux-amd64.tar.gz -ou
     && helm version
 
 # argo
-RUN curl -sLO https://github.com/argoproj/argo/releases/download/v2.12.2/argo-linux-amd64.gz \
+RUN pwsh -nop -nol -c iwr https://github.com/argoproj/argo/releases/download/v2.12.2/argo-linux-amd64.gz -outfile argo-linux-amd64.gz \
     && gunzip argo-linux-amd64.gz \
     && chmod +x argo-linux-amd64 \
     && mv ./argo-linux-amd64 /usr/local/bin/argo \
