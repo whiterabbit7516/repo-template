@@ -48,7 +48,7 @@ RUN sudo apt-get install -y tmux vim ranger fzf \
 # network utilities
 ##########################################
 
-RUN sudo apt install -y iputils-ping dnsutils socat
+RUN sudo apt install -y iputils-ping dnsutils socat ipcalc
 RUN echo "wireshark-common wireshark-common/install-setuid boolean true" | sudo debconf-set-selections
 RUN sudo apt install -y wireshark tshark termshark
 
