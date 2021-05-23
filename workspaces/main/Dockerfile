@@ -183,7 +183,13 @@ RUN pwsh -nop -nol -c iwr https://get.helm.sh/helm-v3.5.4-linux-amd64.tar.gz -ou
     && mv linux-amd64/helm /usr/local/bin/helm \
     && helm version
 
-# argo
+# argo cd
+RUN pwsh -nop -nol -c iwr https://github.com/argoproj/argo-cd/releases/download/v2.0.2/argocd-util-linux-amd64 -o argocd \
+    && chmod +x ./argocd \
+    && mv ./argocd /usr/local/bin/argocd \
+    && argocd version --client
+
+# argo workflows
 RUN pwsh -nop -nol -c iwr https://github.com/argoproj/argo/releases/download/v2.12.2/argo-linux-amd64.gz -outfile argo-linux-amd64.gz \
     && gunzip argo-linux-amd64.gz \
     && chmod +x argo-linux-amd64 \
