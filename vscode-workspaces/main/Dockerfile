@@ -35,6 +35,17 @@ RUN echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/source
 RUN sudo apt-get update 
 
 ##########################################
+# powershell
+##########################################
+
+RUN sudo apt-get install -y powershell \
+    && pwsh --version
+
+RUN pwsh -noni -nol -nop -c Install-Module PSFzf -Scope AllUsers -Force
+
+SHELL ["/usr/bin/pwsh", "-nop", "-nol", "-c"]
+
+##########################################
 # core utilities
 ##########################################
 
@@ -69,15 +80,6 @@ RUN git clone https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew \
 
 RUN sudo apt install -y npm \
     && npm version
-
-##########################################
-# powershell
-##########################################
-
-RUN sudo apt-get install -y powershell \
-    && pwsh --version
-
-RUN pwsh -noni -nol -nop -c Install-Module PSFzf -Scope AllUsers -Force
 
 ##########################################
 # docker
