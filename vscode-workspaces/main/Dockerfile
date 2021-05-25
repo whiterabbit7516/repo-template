@@ -19,6 +19,8 @@ FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT}
 
 WORKDIR /docker-build-workdir
 
+USER root
+
 ##########################################
 # repository setup
 ##########################################
@@ -71,7 +73,7 @@ RUN git clone https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew \
     && mkdir ~/.linuxbrew/bin \
     && ln -s ~/.linuxbrew/Homebrew/bin/brew ~/.linuxbrew/bin \
     && ln -s ~/.linuxbrew/Homebrew/bin/brew /usr/local/bin/ \
-    && eval $(~/.linuxbrew/bin/brew shellenv) \
+    && /bin/bash -c eval $(~/.linuxbrew/bin/brew shellenv) \
     && brew update
 
 ##########################################
@@ -88,7 +90,7 @@ RUN sudo apt install -y npm \
 RUN sudo apt-get install -y docker.io \
     && docker --version
 
-RUN pwsh -nop -nol -c iwr "https://github.com/docker/compose/releases/download/1.28.2/docker-compose-Linux-x86_64" -outfile /usr/local/bin/docker-compose \
+RUN iwr "https://github.com/docker/compose/releases/download/1.28.2/docker-compose-Linux-x86_64" -outfile /usr/local/bin/docker-compose \
     && chmod +x /usr/local/bin/docker-compose \
     && docker-compose version
 
@@ -96,7 +98,7 @@ RUN pwsh -nop -nol -c iwr "https://github.com/docker/compose/releases/download/1
 # github
 ##########################################
 
-RUN pwsh -nop -nol -c iwr https://github.com/cli/cli/releases/download/v1.9.2/gh_1.9.2_linux_amd64.deb -outfile gh.deb \
+RUN iwr https://github.com/cli/cli/releases/download/v1.9.2/gh_1.9.2_linux_amd64.deb -outfile gh.deb \
     && dpkg -i gh.deb \
     && gh version
 
@@ -121,7 +123,7 @@ RUN pip3 install virtualenv black pandas numpy
 # aws
 ##########################################
 
-RUN pwsh -nop -nol -c iwr "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -outfile "awscliv2.zip" \
+RUN iwr "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -outfile "awscliv2.zip" \
     && unzip awscliv2.zip \
     && sudo ./aws/install \
     && rm -rf aws* \
@@ -133,7 +135,7 @@ RUN sudo pwsh -c Install-Module -Scope AllUsers -Name AWSPowerShell.NetCore -For
 # terraform
 ##########################################
 
-RUN pwsh -nop -nol -c iwr "https://releases.hashicorp.com/terraform/0.15.4/terraform_0.15.4_linux_amd64.zip" -outfile "terraform.zip" \
+RUN iwr "https://releases.hashicorp.com/terraform/0.15.4/terraform_0.15.4_linux_amd64.zip" -outfile "terraform.zip" \
     && unzip terraform.zip \
     && mv terraform /usr/local/bin/terraform \
     && rm terraform.zip \
@@ -144,59 +146,66 @@ RUN pwsh -nop -nol -c iwr "https://releases.hashicorp.com/terraform/0.15.4/terra
 ##########################################
 
 # kubectl
-RUN pwsh -nop -nol -c iwr "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl" -outfile kubectl \
+RUN iwr "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl" -outfile kubectl \
     && chmod +x kubectl \
     && sudo mv ./kubectl /usr/local/bin/kubectl \
     && kubectl version --client
 
 # k9s
-RUN pwsh -nop -nol -c iwr https://github.com/derailed/k9s/releases/download/v0.24.7/k9s_Linux_x86_64.tar.gz -outfile k9s.tar.gz \
+RUN iwr https://github.com/derailed/k9s/releases/download/v0.24.7/k9s_Linux_x86_64.tar.gz -outfile k9s.tar.gz \
     && tar xzf k9s.tar.gz k9s \
     && mv k9s /usr/local/bin/k9s \
     && k9s version
 
 # kubectx
-RUN pwsh -nop -nol -c iwr https://github.com/ahmetb/kubectx/releases/download/v0.9.3/kubectx_v0.9.3_linux_x86_64.tar.gz -outfile kubectx.tar.gz \
+RUN iwr https://github.com/ahmetb/kubectx/releases/download/v0.9.3/kubectx_v0.9.3_linux_x86_64.tar.gz -outfile kubectx.tar.gz \
     && tar xzf kubectx.tar.gz kubectx \
     && mv kubectx /usr/local/bin/kubectx \
     && kubectx --help
 
 # kubens
-RUN pwsh -nop -nol -c iwr https://github.com/ahmetb/kubectx/releases/download/v0.9.3/kubens_v0.9.3_linux_x86_64.tar.gz -outfile kubens.tar.gz \
+RUN iwr https://github.com/ahmetb/kubectx/releases/download/v0.9.3/kubens_v0.9.3_linux_x86_64.tar.gz -outfile kubens.tar.gz \
     && tar xzf kubens.tar.gz kubens \
     && mv kubens /usr/local/bin/kubens \
     && kubens --help
 
 # kustomize
-RUN pwsh -nop -nol -c iwr https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv4.1.2/kustomize_v4.1.2_linux_amd64.tar.gz -outfile kustomize.tar.gz \
+RUN iwr https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv4.1.2/kustomize_v4.1.2_linux_amd64.tar.gz -outfile kustomize.tar.gz \
     && tar xzf kustomize.tar.gz kustomize \
     && mv kustomize /usr/local/bin/kustomize \
     && kustomize version
 
 # kubeseal
-RUN pwsh -nop -nol -c iwr https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.15.0/kubeseal-linux-amd64 -outfile kubeseal \
+RUN iwr https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.15.0/kubeseal-linux-amd64 -outfile kubeseal \
     && chmod +x ./kubeseal \
     && mv kubeseal /usr/local/bin/kubeseal \
     && kubeseal --version
 
 # helm
-RUN pwsh -nop -nol -c iwr https://get.helm.sh/helm-v3.5.4-linux-amd64.tar.gz -outfile helm.tar.gz \
+RUN iwr https://get.helm.sh/helm-v3.5.4-linux-amd64.tar.gz -outfile helm.tar.gz \
     && tar xzf helm.tar.gz linux-amd64/helm \
     && mv linux-amd64/helm /usr/local/bin/helm \
     && helm version
 
 # argo cd
-RUN pwsh -nop -nol -c iwr https://github.com/argoproj/argo-cd/releases/download/v2.0.2/argocd-util-linux-amd64 -o argocd \
+RUN iwr https://github.com/argoproj/argo-cd/releases/download/v2.0.2/argocd-util-linux-amd64 -o argocd \
     && chmod +x ./argocd \
     && mv ./argocd /usr/local/bin/argocd \
     && argocd version --client
 
 # argo workflows
-RUN pwsh -nop -nol -c iwr https://github.com/argoproj/argo/releases/download/v2.12.2/argo-linux-amd64.gz -outfile argo-linux-amd64.gz \
+RUN iwr https://github.com/argoproj/argo/releases/download/v2.12.2/argo-linux-amd64.gz -outfile argo-linux-amd64.gz \
     && gunzip argo-linux-amd64.gz \
     && chmod +x argo-linux-amd64 \
     && mv ./argo-linux-amd64 /usr/local/bin/argo \
     && argo version
+
+##########################################
+# user
+##########################################
+
+RUN groupadd -r containergroup && useradd -r -g containergroup --create-home containeruser
+USER root
 
 ##########################################
 # entrypoint 
@@ -205,4 +214,3 @@ RUN pwsh -nop -nol -c iwr https://github.com/argoproj/argo/releases/download/v2.
 ENTRYPOINT [ "/bin/pwsh", "-nop", "-nol", "-c"]
 CMD [ "while ($true) {start-sleep 30}" ]
 WORKDIR /
-USER root
