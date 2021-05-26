@@ -201,6 +201,13 @@ RUN iwr https://github.com/argoproj/argo/releases/download/v2.12.2/argo-linux-am
     && argo version
 
 ##########################################
+# snyk
+##########################################
+
+RUN npm install -g snyk \
+    && snyk version
+
+##########################################
 # user
 ##########################################
 
