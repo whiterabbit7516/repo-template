@@ -17,8 +17,12 @@ FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT}
 # context
 ##########################################
 
-WORKDIR /docker-build-workdir
+WORKDIR /devcontainer/docker-context
+COPY /.devcontainer.json ./
+COPY /Dockerfile ./
+COPY /postCreate.ps1 ./
 
+WORKDIR /devcontainer/docker-build-workdir
 USER root
 
 ##########################################
