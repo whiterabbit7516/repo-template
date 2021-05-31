@@ -1,4 +1,3 @@
-
 ##########################################
 # parameters
 ##########################################
@@ -18,8 +17,6 @@ FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT}
 ##########################################
 
 WORKDIR /devcontainer/docker-context
-COPY /.devcontainer.json ./
-COPY /Dockerfile ./
 COPY /postCreate.ps1 ./
 
 WORKDIR /devcontainer/docker-build-workdir
@@ -210,6 +207,14 @@ RUN iwr https://github.com/argoproj/argo/releases/download/v2.12.2/argo-linux-am
 
 RUN npm install -g snyk \
     && snyk version
+
+##########################################
+# trivy
+##########################################
+
+RUN iwr https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.deb -o trivy_0.18.3_Linux-64bit.deb \
+    && dpkg -i trivy_0.18.3_Linux-64bit.deb  \
+    && trivy -v
 
 ##########################################
 # user

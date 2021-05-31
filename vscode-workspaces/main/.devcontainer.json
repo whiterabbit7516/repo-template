@@ -4,12 +4,11 @@
     "name": "main",
     "build": {
         "dockerfile": "Dockerfile",
-        // Update 'VARIANT' to pick an Ubuntu version: focal, bionic
         "args": { "VARIANT": "focal" }
     },
+    // "image": "ahoenxk3/dev.main",
     "workspaceFolder": "/workspaces/repo-this",
 
-    // Set *default* container specific settings.json values on container create.
     "settings": { 
         "terminal.integrated.shell.linux": "/usr/bin/pwsh",
         "terminal.integrated.shellArgs.linux": [
