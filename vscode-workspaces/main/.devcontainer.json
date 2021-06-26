@@ -7,7 +7,7 @@
     //     "args": { "VARIANT": "focal" }
     // },
     "image": "ahoenxk3/dev-main",
-    "workspaceFolder": "/workspaces/repo-this",
+    "workspaceFolder": "/workspaces/repository-template",
 
     "settings": { 
         "terminal.integrated.shell.linux": "/usr/bin/pwsh",
@@ -29,7 +29,7 @@
         "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind",
         "source=${localEnv:HOME}/.aws,target=/root/.aws,type=bind,consistency=cached",
         "source=${localEnv:HOME}/.kube,target=/root/.kube,type=bind,consistency=cached",
-        "source=${localWorkspaceFolder}/../../,target=/workspaces/repo-this,type=bind",
+        // "source=${localWorkspaceFolder}/../../,target=/workspaces/repo-this,type=bind",
         // "source=${localWorkspaceFolder}/../../../repo-other,target=/workspaces/repo-other,type=bind",
     ],
 
