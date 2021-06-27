@@ -121,6 +121,15 @@ RUN python3 --version \
 RUN pip3 install virtualenv black pandas numpy
 
 ##########################################
+# typescript
+##########################################
+
+RUN sudo npm install -g typescript \
+  && tsc --version
+
+RUN pip3 install virtualenv black pandas numpy
+
+##########################################
 # aws
 ##########################################
 
