@@ -201,20 +201,21 @@ RUN iwr https://github.com/argoproj/argo/releases/download/v2.12.2/argo-linux-am
     && mv ./argo-linux-amd64 /usr/local/bin/argo \
     && argo version
 
-##########################################
 # snyk
-##########################################
-
 RUN npm install -g snyk \
     && snyk version
 
-##########################################
 # trivy
-##########################################
-
 RUN iwr https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.deb -o trivy_0.18.3_Linux-64bit.deb \
     && dpkg -i trivy_0.18.3_Linux-64bit.deb  \
     && trivy -v
+
+##########################################
+# vscode
+##########################################
+
+RUN npm install -g vsce \
+  && vsce --version
 
 ##########################################
 # user
