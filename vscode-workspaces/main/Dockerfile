@@ -231,6 +231,8 @@ RUN npm install -g vsce \
 ##########################################
 
 RUN groupadd -r containergroup && useradd -r -g containergroup --create-home containeruser
+RUN usermod -aG docker containeruser
+RUN usermod -aG docker vscode
 USER root
 
 ##########################################
