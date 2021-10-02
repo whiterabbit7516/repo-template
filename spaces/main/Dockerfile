@@ -28,11 +28,8 @@ USER root
 
 RUN sudo apt-get update \
     && sudo apt-get install -y wget apt-transport-https software-properties-common \
-    && wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb \
+    && wget -q "https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb" \
     && sudo dpkg -i packages-microsoft-prod.deb 
-
-RUN echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list \
-    && sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823
 
 # RUN sudo add-apt-repository universe
 RUN sudo apt-get update 
@@ -91,7 +88,7 @@ RUN sudo apt install -y npm \
 RUN sudo apt-get install -y docker.io \
     && docker --version
 
-RUN iwr "https://github.com/docker/compose/releases/download/1.28.2/docker-compose-Linux-x86_64" -outfile /usr/local/bin/docker-compose \
+RUN iwr "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64" -outfile /usr/local/bin/docker-compose \
     && chmod +x /usr/local/bin/docker-compose \
     && docker-compose version
 
@@ -99,7 +96,7 @@ RUN iwr "https://github.com/docker/compose/releases/download/1.28.2/docker-compo
 # github
 ##########################################
 
-RUN iwr https://github.com/cli/cli/releases/download/v1.9.2/gh_1.9.2_linux_amd64.deb -outfile gh.deb \
+RUN iwr "https://github.com/cli/cli/releases/download/v2.0.0/gh_2.0.0_linux_amd64.deb" -outfile gh.deb \
     && dpkg -i gh.deb \
     && gh version
 
@@ -145,7 +142,7 @@ RUN sudo pwsh -c Install-Module -Scope AllUsers -Name AWSPowerShell.NetCore -For
 # terraform
 ##########################################
 
-RUN iwr "https://releases.hashicorp.com/terraform/0.15.4/terraform_0.15.4_linux_amd64.zip" -outfile "terraform.zip" \
+RUN iwr "https://releases.hashicorp.com/terraform/1.0.8/terraform_1.0.8_linux_amd64.zip" -outfile "terraform.zip" \
     && unzip terraform.zip \
     && mv terraform /usr/local/bin/terraform \
     && rm terraform.zip \
@@ -162,49 +159,49 @@ RUN iwr "https://storage.googleapis.com/kubernetes-release/release/$(curl -s htt
     && kubectl version --client
 
 # k9s
-RUN iwr https://github.com/derailed/k9s/releases/download/v0.24.7/k9s_Linux_x86_64.tar.gz -outfile k9s.tar.gz \
+RUN iwr "https://github.com/derailed/k9s/releases/download/v0.24.15/k9s_Linux_x86_64.tar.gz" -outfile k9s.tar.gz \
     && tar xzf k9s.tar.gz k9s \
     && mv k9s /usr/local/bin/k9s \
     && k9s version
 
 # kubectx
-RUN iwr https://github.com/ahmetb/kubectx/releases/download/v0.9.3/kubectx_v0.9.3_linux_x86_64.tar.gz -outfile kubectx.tar.gz \
+RUN iwr "https://github.com/ahmetb/kubectx/releases/download/v0.9.3/kubectx_v0.9.3_linux_x86_64.tar.gz" -outfile kubectx.tar.gz \
     && tar xzf kubectx.tar.gz kubectx \
     && mv kubectx /usr/local/bin/kubectx \
     && kubectx --help
 
 # kubens
-RUN iwr https://github.com/ahmetb/kubectx/releases/download/v0.9.3/kubens_v0.9.3_linux_x86_64.tar.gz -outfile kubens.tar.gz \
+RUN iwr "https://github.com/ahmetb/kubectx/releases/download/v0.9.3/kubens_v0.9.3_linux_x86_64.tar.gz" -outfile kubens.tar.gz \
     && tar xzf kubens.tar.gz kubens \
     && mv kubens /usr/local/bin/kubens \
     && kubens --help
 
 # kustomize
-RUN iwr https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv4.1.2/kustomize_v4.1.2_linux_amd64.tar.gz -outfile kustomize.tar.gz \
+RUN iwr "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv4.1.2/kustomize_v4.1.2_linux_amd64.tar.gz" -outfile kustomize.tar.gz \
     && tar xzf kustomize.tar.gz kustomize \
     && mv kustomize /usr/local/bin/kustomize \
     && kustomize version
 
 # kubeseal
-RUN iwr https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.15.0/kubeseal-linux-amd64 -outfile kubeseal \
+RUN iwr "https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.16.0/kubeseal-linux-amd64" -outfile kubeseal \
     && chmod +x ./kubeseal \
     && mv kubeseal /usr/local/bin/kubeseal \
     && kubeseal --version
 
 # helm
-RUN iwr https://get.helm.sh/helm-v3.5.4-linux-amd64.tar.gz -outfile helm.tar.gz \
+RUN iwr "https://get.helm.sh/helm-v3.7.0-linux-amd64.tar.gz" -outfile helm.tar.gz \
     && tar xzf helm.tar.gz linux-amd64/helm \
     && mv linux-amd64/helm /usr/local/bin/helm \
     && helm version
 
 # argo cd
-RUN iwr https://github.com/argoproj/argo-cd/releases/download/v2.0.2/argocd-util-linux-amd64 -o argocd \
+RUN iwr "https://github.com/argoproj/argo-cd/releases/download/v2.1.3/argocd-linux-amd64" -o argocd \
     && chmod +x ./argocd \
     && mv ./argocd /usr/local/bin/argocd \
     && argocd version --client
 
 # argo workflows
-RUN iwr https://github.com/argoproj/argo/releases/download/v2.12.2/argo-linux-amd64.gz -outfile argo-linux-amd64.gz \
+RUN iwr "https://github.com/argoproj/argo-workflows/releases/download/v3.1.13/argo-linux-amd64.gz" -outfile argo-linux-amd64.gz \
     && gunzip argo-linux-amd64.gz \
     && chmod +x argo-linux-amd64 \
     && mv ./argo-linux-amd64 /usr/local/bin/argo \
@@ -215,7 +212,7 @@ RUN npm install -g snyk \
     && snyk version
 
 # trivy
-RUN iwr https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.deb -o trivy_0.18.3_Linux-64bit.deb \
+RUN iwr "https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.deb" -o trivy_0.18.3_Linux-64bit.deb \
     && dpkg -i trivy_0.18.3_Linux-64bit.deb  \
     && trivy -v
 
