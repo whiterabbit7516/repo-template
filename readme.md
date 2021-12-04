@@ -1,2 +1,2 @@
-# repository-template
+# repo-template
 repository template, workspaces, devcontainers

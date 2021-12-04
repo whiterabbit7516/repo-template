@@ -67,12 +67,12 @@ RUN sudo apt install -y wireshark tshark termshark
 # linuxbrew
 ##########################################
 
-RUN git clone https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew \
-    && mkdir ~/.linuxbrew/bin \
-    && ln -s ~/.linuxbrew/Homebrew/bin/brew ~/.linuxbrew/bin \
-    && ln -s ~/.linuxbrew/Homebrew/bin/brew /usr/local/bin/ \
-    && /bin/bash -c eval $(~/.linuxbrew/bin/brew shellenv) \
-    && brew update
+# RUN git clone https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew \
+#     && mkdir ~/.linuxbrew/bin \
+#     && ln -s ~/.linuxbrew/Homebrew/bin/brew ~/.linuxbrew/bin \
+#     && ln -s ~/.linuxbrew/Homebrew/bin/brew /usr/local/bin/ \
+#     && /bin/bash -c eval $(~/.linuxbrew/bin/brew shellenv) \
+#     && brew update
 
 ##########################################
 # npm
@@ -106,6 +106,14 @@ RUN iwr "https://github.com/cli/cli/releases/download/v2.0.0/gh_2.0.0_linux_amd6
 
 RUN sudo apt-get install -y dotnet-sdk-5.0 \
     && dotnet --version
+
+##########################################
+# java
+##########################################
+
+RUN sudo apt-get install -y openjdk-8-jdk \
+    && java -version \
+    && javac -version
 
 ##########################################
 # python
@@ -220,8 +228,8 @@ RUN iwr "https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0
 # vscode
 ##########################################
 
-RUN npm install -g vsce \
-  && vsce --version
+# RUN npm install -g vsce \
+#   && vsce --version
 
 ##########################################
 # user

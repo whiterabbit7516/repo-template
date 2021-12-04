@@ -7,7 +7,7 @@
         "args": { "VARIANT": "focal" }
     },
     // "image": "ahoenxk3/dev-main",
-    "workspaceFolder": "/workspaces/repository-template",
+    "workspaceFolder": "/workspaces/repo-template",
 
     "settings": { 
         "terminal.integrated.profiles.linux": {

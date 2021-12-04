@@ -8,7 +8,7 @@
         },
     ],
     "settings": {
-        "window.title": "repository-template | ${rootName}"
+        "window.title": "repo-template | ${rootName}"
     },
     "extensions": {
       "recommendations": [
