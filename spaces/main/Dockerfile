@@ -13,11 +13,14 @@ ARG VARIANT="focal"
 FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT}
 
 ##########################################
-# context
+# users
 ##########################################
 
-WORKDIR /devcontainer/docker-context
-COPY /postCreate.ps1 ./
+RUN groupadd -r containergroup && useradd -r -g containergroup --create-home containeruser
+
+##########################################
+# context
+##########################################
 
 WORKDIR /devcontainer/docker-build-workdir
 USER root
@@ -26,10 +29,15 @@ USER root
 # repository setup
 ##########################################
 
+# microsoft
 RUN sudo apt-get update \
     && sudo apt-get install -y wget apt-transport-https software-properties-common \
-    && wget -q "https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb" \
+    && wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb \
     && sudo dpkg -i packages-microsoft-prod.deb 
+
+# hashicorp
+RUN curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add - \
+    && sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
 
 # RUN sudo add-apt-repository universe
 RUN sudo apt-get update 
@@ -82,6 +90,25 @@ RUN sudo apt install -y npm \
     && npm version
 
 ##########################################
+# one password
+##########################################
+
+RUN iwr https://cache.agilebits.com/dist/1P/op/pkg/v1.12.3/op_linux_amd64_v1.12.3.zip -o op.zip \
+    && unzip op.zip \
+    && mv op /usr/local/bin/op \
+    && op --version
+
+##########################################
+# step
+##########################################
+
+RUN iwr https://dl.step.sm/gh-release/cli/gh-release-header/v0.18.0/step_linux_0.18.0_amd64.tar.gz -o step.tar.gz \
+    && tar xzf step.tar.gz  \
+    && chmod +x step_0.18.0/bin/step \
+    && mv step_0.18.0/bin/step /usr/local/bin/step \
+    && step version
+
+##########################################
 # docker
 ##########################################
 
@@ -91,6 +118,9 @@ RUN sudo apt-get install -y docker.io \
 RUN iwr "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64" -outfile /usr/local/bin/docker-compose \
     && chmod +x /usr/local/bin/docker-compose \
     && docker-compose version
+
+RUN usermod -aG docker containeruser
+RUN usermod -aG docker vscode
 
 ##########################################
 # github
@@ -132,8 +162,6 @@ RUN pip3 install virtualenv black pandas numpy
 RUN sudo npm install -g typescript \
   && tsc --version
 
-RUN pip3 install virtualenv black pandas numpy
-
 ##########################################
 # aws
 ##########################################
@@ -145,6 +173,14 @@ RUN iwr "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -outfile "aws
     && aws --version
 
 RUN sudo pwsh -c Install-Module -Scope AllUsers -Name AWSPowerShell.NetCore -Force
+
+##########################################
+# vault
+##########################################
+
+RUN sudo apt-get install -y vault \
+    && sudo apt-get install --reinstall -y vault \
+    && vault version
 
 ##########################################
 # terraform
@@ -190,17 +226,29 @@ RUN iwr "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomiz
     && mv kustomize /usr/local/bin/kustomize \
     && kustomize version
 
-# kubeseal
-RUN iwr "https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.16.0/kubeseal-linux-amd64" -outfile kubeseal \
-    && chmod +x ./kubeseal \
-    && mv kubeseal /usr/local/bin/kubeseal \
-    && kubeseal --version
-
+##########################################
 # helm
+##########################################
+
 RUN iwr "https://get.helm.sh/helm-v3.7.0-linux-amd64.tar.gz" -outfile helm.tar.gz \
     && tar xzf helm.tar.gz linux-amd64/helm \
     && mv linux-amd64/helm /usr/local/bin/helm \
     && helm version
+
+##########################################
+# sealed secrets
+##########################################
+
+# kubeseal
+RUN iwr "https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.17.1/kubeseal-0.17.1-linux-amd64.tar.gz" -outfile kubeseal.tar.gz \
+    && tar xzf kubeseal.tar.gz kubeseal \
+    && chmod +x ./kubeseal \
+    && mv kubeseal /usr/local/bin/kubeseal \
+    && kubeseal --version
+
+##########################################
+# argo
+##########################################
 
 # argo cd
 RUN iwr "https://github.com/argoproj/argo-cd/releases/download/v2.1.3/argocd-linux-amd64" -o argocd \
@@ -215,14 +263,24 @@ RUN iwr "https://github.com/argoproj/argo-workflows/releases/download/v3.1.13/ar
     && mv ./argo-linux-amd64 /usr/local/bin/argo \
     && argo version
 
-# snyk
-RUN npm install -g snyk \
-    && snyk version
+##########################################
+# cert-manager
+##########################################
 
-# trivy
-RUN iwr "https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0.18.3_Linux-64bit.deb" -o trivy_0.18.3_Linux-64bit.deb \
-    && dpkg -i trivy_0.18.3_Linux-64bit.deb  \
-    && trivy -v
+RUN iwr https://github.com/jetstack/cert-manager/releases/download/v1.7.0-alpha.0/cmctl-linux-amd64.tar.gz -outfile cmctl.tar.gz \
+    && tar xzf cmctl.tar.gz cmctl \
+    && chmod +x cmctl \
+    && mv ./cmctl /usr/local/bin/cmctl \
+    && cmctl version --client
+
+##########################################
+# linkerd
+##########################################
+
+RUN iwr https://github.com/linkerd/linkerd2/releases/download/stable-2.11.1/linkerd2-cli-stable-2.11.1-linux-amd64 -outfile linkerd \
+    && chmod +x linkerd \
+    && mv ./linkerd /usr/local/bin/linkerd \
+    && linkerd version --client
 
 ##########################################
 # vscode
@@ -232,12 +290,16 @@ RUN iwr "https://github.com/aquasecurity/trivy/releases/download/v0.18.3/trivy_0
 #   && vsce --version
 
 ##########################################
+# scripts
+##########################################
+
+WORKDIR /devcontainer/docker-context
+COPY /postCreate.ps1 ./
+
+##########################################
 # user
 ##########################################
 
-RUN groupadd -r containergroup && useradd -r -g containergroup --create-home containeruser
-RUN usermod -aG docker containeruser
-RUN usermod -aG docker vscode
 USER root
 
 ##########################################
