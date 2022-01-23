@@ -89,6 +89,13 @@ RUN sudo apt install -y wireshark tshark termshark
 RUN sudo apt install -y npm \
     && npm version
 
+RUN npm cache clean -f \
+    && npm install -g n \
+    && n stable
+
+RUN npm install --global yarn \
+    && yarn --version
+
 ##########################################
 # one password
 ##########################################
@@ -193,6 +200,13 @@ RUN iwr "https://releases.hashicorp.com/terraform/1.0.8/terraform_1.0.8_linux_am
     && terraform version
 
 ##########################################
+# redis
+##########################################
+
+RUN apt install -y redis-tools \
+    && redis-cli --version
+
+##########################################
 # kubernetes
 ##########################################
 
@@ -281,6 +295,16 @@ RUN iwr https://github.com/linkerd/linkerd2/releases/download/stable-2.11.1/link
     && chmod +x linkerd \
     && mv ./linkerd /usr/local/bin/linkerd \
     && linkerd version --client
+
+##########################################
+# istio
+##########################################
+
+RUN iwr https://github.com/istio/istio/releases/download/1.12.1/istioctl-1.12.1-linux-amd64.tar.gz -outfile istioctl.tar.gz \
+    && tar xzf istioctl.tar.gz istioctl \
+    && chmod +x istioctl \
+    && mv ./istioctl /usr/local/bin/istioctl \
+    && istioctl version --remote=false
 
 ##########################################
 # vscode
