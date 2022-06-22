@@ -138,6 +138,12 @@ RUN iwr "https://github.com/cli/cli/releases/download/v2.0.0/gh_2.0.0_linux_amd6
     && gh version
 
 ##########################################
+# rust
+##########################################
+
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+
+##########################################
 # dotnet
 ##########################################
 
