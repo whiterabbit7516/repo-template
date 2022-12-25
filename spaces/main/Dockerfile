@@ -147,7 +147,7 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 # dotnet
 ##########################################
 
-RUN sudo apt-get install -y dotnet-sdk-5.0 \
+RUN sudo apt-get install -y dotnet-sdk-7.0 \
     && dotnet --version
 
 ##########################################
