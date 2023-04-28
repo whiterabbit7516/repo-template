@@ -1,0 +1,20 @@
+{
+  "name": "main",
+  "image": "ghcr.io/ha07z7xe/devcontainers/devenv-main:latest",
+  "workspaceFolder": "/workspaces/repo-template",
+  "runArgs": [
+    "--network=host",
+    // "--cap-add=NET_RAW",
+    // "--cap-add=NET_ADMIN"
+  ],
+  "containerEnv": {
+    "DOCKER_HOST": "unix:///var/run/docker-host.sock"
+  },
+  "mounts": [
+    // "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind",
+    // "source=${localEnv:HOME}/.aws,target=/root/.aws,type=bind,consistency=cached",
+    // "source=${localEnv:HOME}/.kube,target=/root/.kube,type=bind,consistency=cached",
+    // "source=${localWorkspaceFolder}/../../,target=/workspaces/repo-this,type=bind",
+    // "source=${localWorkspaceFolder}/../../../repo-other,target=/workspaces/repo-other,type=bind",
+  ],
+}
