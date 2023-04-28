@@ -7,8 +7,13 @@
     // "--cap-add=NET_RAW",
     // "--cap-add=NET_ADMIN"
   ],
-  "containerEnv": {
-  },
+  "initializeCommand": [
+    "docker",
+    "pull",
+    "ghcr.io/ha07z7xe/devcontainers/devenv-main:latest"
+  ],
+  "postCreateCommand": "/usr/bin/pwsh -nop -nol -f /devcontainer/docker-context/postCreate.ps1",
+  "containerEnv": {},
   "customizations": {
     "vscode": {
       "settings": {
@@ -40,5 +45,5 @@
     // "source=${localEnv:HOME}/.kube,target=/root/.kube,type=bind,consistency=cached",
     // "source=${localWorkspaceFolder}/../../,target=/workspaces/repo-this,type=bind",
     // "source=${localWorkspaceFolder}/../../../repo-other,target=/workspaces/repo-other,type=bind",
-  ],
+  ]
 }
