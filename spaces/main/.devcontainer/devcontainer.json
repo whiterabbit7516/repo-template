@@ -8,10 +8,34 @@
     // "--cap-add=NET_ADMIN"
   ],
   "containerEnv": {
-    "DOCKER_HOST": "unix:///var/run/docker-host.sock"
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "pwsh",
+        "terminal.integrated.profiles.linux": {
+          "tmux": {
+            "path": "tmux",
+            "icon": "terminal-tmux"
+          },
+          "pwsh": {
+            "path": "pwsh",
+            "icon": "terminal-powershell",
+            "args": [
+              "-nol"
+            ]
+          }
+        },
+        "omnisharp.autoStart": false
+      },
+      "extensions": [
+        "vscodevim.vim",
+        "alefragnani.bookmarks",
+        "eamodio.gitlens"
+      ]
+    }
   },
   "mounts": [
-    // "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind",
     // "source=${localEnv:HOME}/.aws,target=/root/.aws,type=bind,consistency=cached",
     // "source=${localEnv:HOME}/.kube,target=/root/.kube,type=bind,consistency=cached",
     // "source=${localWorkspaceFolder}/../../,target=/workspaces/repo-this,type=bind",
