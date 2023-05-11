@@ -8,7 +8,8 @@
         },
     ],
     "settings": {
-        "window.title": "${rootName}${separator}${profileName}"
+      "window.title": "${rootName}${separator}${profileName}",
+      "window.titleSeparator": " | "
     },
     "extensions": {
       "recommendations": [
