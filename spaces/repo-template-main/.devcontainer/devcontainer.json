@@ -1,5 +1,5 @@
 {
-  "name": "main",
+  "name": "repo-template-main",
   "image": "ghcr.io/ha07z7xe/devcontainers/devenv-main:latest",
   "workspaceFolder": "/workspaces/repo-template",
   "runArgs": [
@@ -17,6 +17,7 @@
   "customizations": {
     "vscode": {
       "settings": {
+        "window.title": "${rootName}${separator}${profileName}",
         "terminal.integrated.defaultProfile.linux": "pwsh",
         "terminal.integrated.profiles.linux": {
           "tmux": {
