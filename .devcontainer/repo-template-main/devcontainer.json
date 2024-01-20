@@ -1,6 +1,8 @@
 {
   "name": "repo-template-main",
-  "image": "ghcr.io/ha07z7xe/devcontainers/devenv-main:latest",
+  "build": {
+    "dockerfile": "./Dockerfile"
+  },
   "workspaceFolder": "/workspaces/repo-template",
   "runArgs": [
     "--network=host",
