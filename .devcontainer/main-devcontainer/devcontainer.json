@@ -35,7 +35,9 @@
             ]
           }
         },
-        "omnisharp.autoStart": false
+        "omnisharp.autoStart": false,
+        "dotfiles.repository": "https://github.com/ha07z7xe/dotfiles.git",
+        "dotfiles.installCommand": "install.ps1"
       },
       "extensions": [
         "vscodevim.vim",
