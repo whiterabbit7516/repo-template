@@ -1,5 +1,5 @@
 {
-  "name": "repo-template-main",
+  "name": "main",
   "build": {
     "dockerfile": "./Dockerfile"
   },
