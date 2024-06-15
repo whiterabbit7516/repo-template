@@ -3,7 +3,7 @@
   "build": {
     "dockerfile": "./Dockerfile"
   },
-  "workspaceFolder": "/workspaces/repo-template",
+  "workspaceFolder": "/workspaces/",
   "runArgs": [
     "--network=host",
     // "--cap-add=NET_RAW",
