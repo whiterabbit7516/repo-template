@@ -13,8 +13,8 @@
     "pull",
     "ghcr.io/ha07z7xe/devcontainers/devenv-main:latest"
   ],
-  "postCreateCommand": "/usr/bin/pwsh -nop -nol -f /devcontainer/docker-context/postCreate.ps1",
-  "postAttachCommand": "/usr/bin/pwsh -nop -nol -f /devcontainer/docker-context/postAttach.ps1",
+  "postCreateCommand": "/usr/bin/pwsh -nop -nol -f /devcontainer/docker-context/scripts/postCreate.ps1",
+  "postAttachCommand": "/usr/bin/pwsh -nop -nol -f /devcontainer/docker-context/scripts/postAttach.ps1",
   "containerEnv": {},
   "customizations": {
     "vscode": {
