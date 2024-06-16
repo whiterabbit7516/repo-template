@@ -16,6 +16,7 @@
   "postCreateCommand": "/usr/bin/pwsh -nop -nol -f /devcontainer/docker-context/scripts/postCreate.ps1",
   "postAttachCommand": "/usr/bin/pwsh -nop -nol -f /devcontainer/docker-context/scripts/postAttach.ps1",
   "containerEnv": {},
+  "remoteUser": "root",
   "customizations": {
     "vscode": {
       "settings": {
