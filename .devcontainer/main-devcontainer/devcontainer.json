@@ -15,7 +15,9 @@
   ],
   "postCreateCommand": "/usr/bin/pwsh -nop -nol -f /devcontainer/docker-context/scripts/postCreate.ps1",
   "postAttachCommand": "/usr/bin/pwsh -nop -nol -f /devcontainer/docker-context/scripts/postAttach.ps1",
-  "containerEnv": {},
+  "containerEnv": {
+    "DOCKER_HOST": "unix:///var/run/docker-host.sock"
+  },
   "remoteUser": "root",
   "customizations": {
     "vscode": {
@@ -51,5 +53,6 @@
     // "source=${localEnv:HOME}/.aws,target=/root/.aws,type=bind,consistency=cached",
     // "source=${localEnv:HOME}/.kube,target=/root/.kube,type=bind,consistency=cached",
     // "source=${localWorkspaceFolder}/../../../repo-other,target=/workspaces/repo-other,type=bind",
+    // "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind"
   ]
 }
