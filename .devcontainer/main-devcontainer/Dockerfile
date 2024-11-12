@@ -1,4 +1,4 @@
-FROM ghcr.io/ha07z7xe/devcontainers/devenv-main-amd64:latest
+FROM ghcr.io/whiterabbit7516/devcontainers/devenv-main-amd64:latest
 
 WORKDIR /devcontainer/docker-build-workdir/
 
