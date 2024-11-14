@@ -1,5 +1,5 @@
 {
-  "name": "main-devcontainer",
+  "name": "main",
   "build": {
     "dockerfile": "./Dockerfile"
   },
