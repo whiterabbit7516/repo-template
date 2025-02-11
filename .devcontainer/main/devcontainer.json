@@ -3,6 +3,8 @@
   "build": {
     "dockerfile": "./Dockerfile"
   },
+  "workspaceMount": "source=${localWorkspaceFolder}/,target=/workspace/repos/repo-template/,type=bind",
+  "workspaceFolder": "/workspace",
   "runArgs": [
     "--network=host"
     // "--cap-add=NET_RAW",
@@ -52,7 +54,7 @@
   "mounts": [
     // "source=${localEnv:HOME}/.aws,target=/root/.aws,type=bind,consistency=cached",
     // "source=${localEnv:HOME}/.kube,target=/root/.kube,type=bind,consistency=cached",
-    // "source=${localWorkspaceFolder}/../../../repo-other,target=/workspaces/repo-other,type=bind",
+    // "source=${localWorkspaceFolder}/../../../repo-other,target=/workspace/repos/repo-other,type=bind",
     // "source=/var/run/docker.sock,target=/var/run/docker-host.sock,type=bind"
   ]
 }
